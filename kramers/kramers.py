@@ -577,7 +577,39 @@ def mean_var_hist_phis(lista):
 
 def act_gLan(pos_ini, vel_ini, Ext_F, ud_rand_F, m, gamma, delta_t):
     """This function updates de position and velocity of a diffusion process restricted to move
-    on the surface of the unit sphere"""
+    on the surface of the unit sphere
+
+    Parameters
+    ----------
+    pos_ini : numpy.ndarray
+        Initial position of the particle on the unit sphere.
+    vel_ini : numpy.ndarray
+        Initial velocity of the particle.
+    Ext_F : float
+        External force acting on the particle.
+    ud_rand_F : float
+        Random force acting on the particle due to the surrounding medium.
+    m : float
+        Mass of the particle.
+    gamma : float
+        Friction coefficient representing the interaction of the particle with the surrounding medium.
+    delta_t : float
+        Time step for the simulation.
+    
+    Returns
+    -------
+    pos_fin : numpy.ndarray
+        Final position of the particle after the time step.
+    vel_fin : numpy.ndarray
+        Final velocity of the particle after the time step.
+    
+    Notes
+    -----
+    The function first calculates the final velocity of the particle considering the external and random forces, as well as the friction. 
+    If the initial velocity is not zero, the final velocity is rotated to ensure the motion remains on the surface of the sphere.
+    The function then calculates the displacement of the particle during the time step, and if this displacement is within a certain range, 
+    the final position is updated. Otherwise, the position remains the same.
+    """
     
     vel_fin = vel_ini*(1 - (gamma/m) * delta_t) + ud_rand_F + Ext_F /m * delta_t
     #print('vel_fin', vel_fin, 'norm_vel_ini-delta_t',np.linalg.norm(vel_ini)*delta_t, 'ud_rand_F',
@@ -697,14 +729,6 @@ def theta_phi(l_pos):
         thetas.append(theta)
         phis.append(phi)
     return thetas, phis
-
-
-
-
-
-
-
-
 
 
 
